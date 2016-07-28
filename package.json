@@ -1,0 +1,23 @@
+{
+  "name": "state-management",
+  "version": "0.0.0",
+  "description": "State management prototype",
+  "scripts": {
+    "dev": "tsc -w | nodemon -r reify dist/index.js",
+    "dist": "rm -rf dist && tsc"
+  },
+  "author": "Alberto Mijares <almilo@almilo.es>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.10.0",
+    "typescript": "^1.8.10"
+  },
+  "dependencies": {
+    "reify": "^0.3.6",
+    "rxjs": "^5.0.0-beta.10"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=6"
+  }
+}
