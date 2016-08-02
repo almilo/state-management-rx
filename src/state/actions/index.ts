@@ -3,8 +3,23 @@ export class AddTodoAction {
     }
 }
 
+export class ModifyTodoAction {
+    constructor(public id: number, public title: string) {
+    }
+}
+
+export class RemoveTodoAction {
+    constructor(public id: number) {
+    }
+}
+
 export class ToggleTodoAction {
     constructor(public id: number) {
+    }
+}
+
+export class RemoveCompletedTodosAction {
+    constructor() {
     }
 }
 
@@ -13,4 +28,13 @@ export class SetFilterAction {
     }
 }
 
-export type Action = AddTodoAction | ToggleTodoAction | SetFilterAction;
+export class NoopAction {
+}
+
+export type Action = AddTodoAction |
+    ModifyTodoAction |
+    RemoveTodoAction |
+    ToggleTodoAction |
+    RemoveCompletedTodosAction |
+    SetFilterAction |
+    NoopAction;
