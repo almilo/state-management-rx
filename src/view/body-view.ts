@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Rx';
 import { State, Todo } from '../state/state';
 import { select } from '../lib';
+import { Filter } from '../state/reducers/filter-reducer';
 
 let version = 0;
 
@@ -10,19 +11,29 @@ export default function (states: Observable<State>): Observable<string> {
         .map(render); // apply the rendering function
 
     function render(filteredTodos) {
-        const filteredTodosAsString = filteredTodos
-            .map(todo => `  ${todo.title}: ${todo.completed ? 'completed' : 'pending'}`)
-            .join('\n');
+        const filteredTodosAsListElements = filteredTodos
+            .map(todo => `<li class="list-group-item">
+                              <label>
+                                  <input type="checkbox" ${todo.completed ? ' checked' : ''}
+                                         onchange="foo.dispatch(new foo.ToggleTodoAction(${todo.id}))">&nbsp;
+                                      ${todo.completed ? '<s>' : ''}${todo.title}${todo.completed ? '</s>' : ''}
+                              </label>
+                              <button class="close" onclick="foo.dispatch(new foo.RemoveTodoAction(${todo.id}))">
+                                  <span>&times;</span>
+                              </button>
+                          </li>`
+            )
+            .join('');
 
-        return `Todos:\n${filteredTodosAsString} - version: ${version++}`;
+        return `<div>version: ${version++}</div><ul class="list-group">${filteredTodosAsListElements}</ul>`;
     }
 
     function filterTodos(state) {
         return state.todos.filter(todo => matches(todo, state.filter));
 
-        function matches(todo, filter) {
+        function matches(todo: Todo, filter: Filter) {
             switch (filter) {
-                case 'SHOW_ALL':
+                case 'ALL':
                     return true;
                 case 'COMPLETED':
                     return todo.completed;

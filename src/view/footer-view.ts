@@ -11,7 +11,12 @@ export default function (states: Observable<State>): Observable<string> {
     function render(todos) {
         const totals = todos.reduce(accumulate, {completed: 0, pending: 0});
 
-        return `Pending: ${totals.pending}, Completed: ${totals.completed} - version: ${version++}`;
+        return `<span>Pending: ${totals.pending}, Completed: ${totals.completed}
+                    <button class="btn btn-xs btn-danger" onclick="foo.dispatch(new foo.RemoveCompletedTodosAction())">
+                        Remove completed
+                    </button>
+                    <span> - version: ${version++}</span>
+                </span>`;
     }
 
     function accumulate({completed, pending}, todo) {

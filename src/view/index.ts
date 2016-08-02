@@ -11,6 +11,6 @@ export default function (states: Observable<State>): Observable<string> {
             footerView(states),
             (header, body, footer) => `${header}\n${body}\n${footer}`
         )
-        //.sample(Observable.interval(100)) // debounce the combined view to avoid flickering
+        .sample(Observable.interval(100)) // debounce the combined view to avoid flickering
         .share(); // do not set different processing pipelines
 }

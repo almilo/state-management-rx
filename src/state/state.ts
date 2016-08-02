@@ -1,3 +1,5 @@
+import { Filter } from './reducers/filter-reducer';
+
 export interface Todo {
     id: number,
     title: string,
@@ -6,5 +8,5 @@ export interface Todo {
 
 export interface State {
     todos: Todo[],
-    filter: string
+    filter: Filter
 }

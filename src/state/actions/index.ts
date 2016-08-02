@@ -1,5 +1,7 @@
+import { Filter } from '../reducers/filter-reducer';
+
 export class AddTodoAction {
-    constructor(public id: number, public title: string) {
+    constructor(public title: string) {
     }
 }
 
@@ -24,7 +26,7 @@ export class RemoveCompletedTodosAction {
 }
 
 export class SetFilterAction {
-    constructor(public filter: string) {
+    constructor(public filter: Filter) {
     }
 }
 

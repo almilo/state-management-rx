@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "description": "State management prototype",
   "scripts": {
-    "dev": "tsc -w | nodemon -r reify dist/index.js",
+    "dev": "tsc -w | watchify -e dist/index.js -o dist/bundle.js -s foo",
     "dist": "rm -rf dist && tsc"
   },
   "author": "Alberto Mijares <almilo@almilo.es>",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.10.0",
-    "typescript": "^1.8.10"
+    "typescript": "^1.8.10",
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "reify": "^0.3.6",
