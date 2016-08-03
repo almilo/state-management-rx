@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <title>State Management with RxJS</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        .debug .version {
+            display: none;
+        }
+
+        .debug-on .debug {
+            border: 1px solid red;
+            position: relative;
+        }
+
+        .debug-on .debug .version {
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style>
 </head>
 <body onload="document.getElementById('todo-title').focus()">
 <div class="container">
@@ -11,14 +28,19 @@
     <input id="todo-title" type="text" class="form-control" onkeypress="maybeAddTodo(event)">
     <br/>
     <div id="view"></div>
+    <div>
+        <div id="renderings"></div>
+        <label><input type="checkbox" onchange="toggleDebug(this.checked)"> Debug</label>
+    </div>
 </div>
 
 <script src="../dist/bundle.js"></script>
 <script>
-    let rendered = 0;
+    let renderings = 0;
 
     foo.onRender(view => {
-        document.getElementById('view').innerHTML = view + `<div>Rendered: ${++rendered}</div>`;
+        document.getElementById('view').innerHTML = view;
+        document.getElementById('renderings').textContent = `Renderings: ${renderings++}`;
     });
 
     function maybeAddTodo(event) {
@@ -28,6 +50,10 @@
             foo.dispatch(new foo.AddTodoAction(inputValue));
             event.target.value = '';
         }
+    }
+
+    function toggleDebug(value) {
+        document.body.className = value ? 'debug-on' : '';
     }
 </script>
 </body>

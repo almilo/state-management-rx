@@ -8,6 +8,7 @@ import {
     RemoveCompletedTodosAction,
     ModifyTodoAction
 } from '../actions';
+import { shallowEquals } from '../../lib/index';
 
 export default function (initialState: Todo[], actions: Observable<Action>): Observable<Todo[]> {
     return actions.scan((state, action) => { // apply the action to the last state
@@ -26,7 +27,8 @@ export default function (initialState: Todo[], actions: Observable<Action>): Obs
         } else {
             return state;
         }
-    }, initialState); // emmit the initial state to bootstrap the application
+    }, initialState) // emmit the initial state to bootstrap the application
+        .distinctUntilChanged(shallowEquals); // avoid emitting if not changed
 }
 
 let nextId = Date.now();

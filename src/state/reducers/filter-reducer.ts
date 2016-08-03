@@ -10,5 +10,6 @@ export default function (initialState: Filter, actions: Observable<Action>): Obs
         } else {
             return state;
         }
-    }, initialState); // emmit the initial state to bootstrap the application
+    }, initialState) // emmit the initial state to bootstrap the application
+        .distinctUntilChanged(); // avoid emitting if not changed
 }

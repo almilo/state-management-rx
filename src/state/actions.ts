@@ -1,4 +1,4 @@
-import { Filter } from '../reducers/filter-reducer';
+import { Filter } from './reducers/filter-reducer';
 
 export class AddTodoAction {
     constructor(public title: string) {
