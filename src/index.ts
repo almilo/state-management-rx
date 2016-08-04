@@ -4,7 +4,7 @@ import reducer from './state/reducers';
 import views from './view';
 
 const actions = new Subject<Action>();
-const states = reducer({todos: [], filter: 'ALL'}, actions);
+const states = reducer({business: {todos: []}, ui: {filter: 'ALL'}}, actions);
 
 export * from './state/actions';
 

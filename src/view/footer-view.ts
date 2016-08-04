@@ -15,9 +15,9 @@ export default function (states: Observable<State>): Observable<string> {
     }
 
     function groupTodosByState(state: State): {} {
-        return state.todos.reduce(accumulate1, {completed: 0, pending: 0});
+        return state.business.todos.reduce(accumulate, {completed: 0, pending: 0});
 
-        function accumulate1({completed, pending}, todo: Todo) {
+        function accumulate({completed, pending}, todo: Todo) {
             return {
                 completed: todo.completed ? completed + 1 : completed,
                 pending: !todo.completed ? pending + 1 : pending

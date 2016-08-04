@@ -7,9 +7,9 @@ import { shallowEquals } from '../../lib/index';
 
 export default function (initialState: State, actions: Observable<Action>): Observable<State> {
     const states = Observable.combineLatest( // combine the partial reducers into the application state
-        todosReducer(initialState.todos, actions),
-        filterReducer(initialState.filter, actions),
-        (todos, filter) => ({todos, filter})
+        todosReducer(initialState.business.todos, actions),
+        filterReducer(initialState.ui.filter, actions),
+        (todos, filter) => ({business: {todos}, ui: {filter}})
     )
         .distinctUntilChanged(shallowEquals) // avoid emitting if not changed
         .share(); // do not set different processing pipelines

@@ -6,7 +6,15 @@ export interface Todo {
     completed: boolean
 }
 
-export interface State {
-    todos: Todo[],
+interface UiState {
     filter: Filter
+}
+
+interface BusinessState {
+    todos: Todo[],
+}
+
+export interface State {
+    ui: UiState,
+    business: BusinessState
 }

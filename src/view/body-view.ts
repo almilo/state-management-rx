@@ -26,7 +26,7 @@ export default function (states: Observable<State>): Observable<string> {
     }
 
     function filterTodos(state: State): Todo[] {
-        return state.todos.filter(todo => matches(todo, state.filter));
+        return state.business.todos.filter(todo => matches(todo, state.ui.filter));
 
         function matches(todo: Todo, filter: Filter) {
             switch (filter) {
@@ -37,7 +37,7 @@ export default function (states: Observable<State>): Observable<string> {
                 case 'PENDING':
                     return !todo.completed;
                 default:
-                    throw new Error('Filter not supported: "' + state.filter + '".');
+                    throw new Error('Filter not supported: "' + filter + '".');
             }
         }
     }
