@@ -12,10 +12,10 @@ export default function (states: Observable<State>): Observable<string> {
             .map(filteredTodo => `<li class="list-group-item">
                               <label>
                                   <input type="checkbox" ${filteredTodo.completed ? ' checked' : ''}
-                                         onchange="foo.dispatch(new foo.ToggleTodoAction(${filteredTodo.id}))">&nbsp;
+                                         onchange="dispatch(new ToggleTodoAction(${filteredTodo.id}))">&nbsp;
                                       ${filteredTodo.completed ? '<s>' : ''}${filteredTodo.title}${filteredTodo.completed ? '</s>' : ''}
                               </label>
-                              <button class="close" onclick="foo.dispatch(new foo.RemoveTodoAction(${filteredTodo.id}))">
+                              <button class="close" onclick="dispatch(new RemoveTodoAction(${filteredTodo.id}))">
                                   <span>&times;</span>
                               </button>
                           </li>`

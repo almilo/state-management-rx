@@ -8,7 +8,7 @@ export default function (states: Observable<State>): Observable<string> {
 
     function render(totalsByState: {pending: number, completed: number}) {
         return `<span>Pending: ${totalsByState.pending}, Completed: ${totalsByState.completed}
-                    <button class="btn btn-xs btn-danger" onclick="foo.dispatch(new foo.RemoveCompletedTodosAction())">
+                    <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
                         Remove completed
                     </button>
                 </span>`;

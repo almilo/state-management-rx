@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "State management prototype",
   "scripts": {
-    "dev": "tsc -w | watchify -e dist/index.js -o dist/bundle.js -s foo",
+    "dev": "tsc -w | watchify -e dist/index.js -o dist/bundle.js -s todos",
     "dist": "rm -rf dist && tsc"
   },
   "author": "Alberto Mijares <almilo@almilo.es>",

@@ -13,7 +13,7 @@ export default function (states: Observable<State>): Observable<string> {
                 return `<label class="radio-inline">
                             <input type="radio" name="filter" value="${filter}"
                                    ${filter === selectedFilter ? 'checked' : ''}
-                                   onchange="foo.dispatch(new foo.SetFilterAction('${filter}'))">
+                                   onchange="dispatch(new SetFilterAction('${filter}'))">
                             ${humanize(filter)}
                         </label>`;
             })
