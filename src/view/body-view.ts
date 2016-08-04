@@ -7,7 +7,7 @@ export default function (states: Observable<State>): Observable<string> {
     return select(states, filterTodos, shallowEquals) // build the presentation model based on the application state: filtered todos
         .map(render); // apply the rendering function
 
-    function render(filteredTodos) {
+    function render(filteredTodos: Todo[]) {
         const filteredTodosAsListElements = filteredTodos
             .map(filteredTodo => `<li class="list-group-item">
                               <label>

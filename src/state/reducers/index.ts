@@ -17,7 +17,7 @@ export default function (initialState: State, actions: Observable<Action>): Obse
     return wrapWithBehavior(initialState, states) // use a behaviour to bootstrap the application
         .asObservable(); // expose only the observable part
 
-    function wrapWithBehavior(initialValue, observable) {
+    function wrapWithBehavior(initialValue: State, observable: Observable<State>) {
         const behaviorSubject = new BehaviorSubject(initialValue);
 
         observable.subscribe(value => behaviorSubject.next(value));

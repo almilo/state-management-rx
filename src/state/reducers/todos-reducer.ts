@@ -33,6 +33,6 @@ export default function (initialState: Todo[], actions: Observable<Action>): Obs
 
 let nextId = Date.now();
 
-function createTodo(id = nextId++, title, completed = false): Todo {
+function createTodo(id: number = nextId++, title: string, completed: boolean = false): Todo {
     return {id, title, completed};
 }

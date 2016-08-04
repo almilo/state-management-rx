@@ -9,8 +9,8 @@ export function select<T, V>(observable: Observable<T>, selector?: string | Func
         .map(asFunction(selector)) // select the part of the application state in which we are interested
         .distinctUntilChanged(equality); // don't emmit if the value we are interested in doesn't change
 
-    function asFunction(selector) {
-        return value => {
+    function asFunction(selector: string | Function) {
+        return (value: any) => {
             if (!selector) {
                 return value;
             }
@@ -20,24 +20,24 @@ export function select<T, V>(observable: Observable<T>, selector?: string | Func
     }
 }
 
-export function shallowEquals(object1, object2): boolean {
-    if (!(object1 instanceof Object && object2 instanceof Object)) {
-        throw new Error(`Only objects are supported: '${typeof object1}', '${typeof object2}'.`);
-    }
-
-    if (object1.length === undefined) {
+export function shallowEquals<T>(object1: Object | Array<T>, object2: Object | Array<T>): boolean {
+    if (object1 instanceof Array && object2 instanceof Array) {
+        return object1.length === object2.length && object1.every((todo, index) => object1[index] === object2[index]);
+    } else if (object1 instanceof Object && object2 instanceof Object) {
         const properties1 = Object.keys(object1);
         const properties2 = Object.keys(object2);
 
-        return properties1.length === properties2.length &&
-            properties1.every(property => object1[property] === object2[property]) &&
-            properties2.every(property => object1[property] === object2[property]);
+        return properties1.length === properties2.length && properties1.every(hasCounterpart) && properties2.every(hasCounterpart);
+
+        function hasCounterpart(propertyName: string) {
+            return (<{[key: string]: any}>object1)[propertyName] === (<{[key: string]: any}>object2)[propertyName];
+        }
     } else {
-        return object1.length === object2.length && object1.every((todo, index) => object1[index] === object2[index]);
+        throw new Error(`Only arrays and objects are supported and both value must be of the same type: '${typeof object1}', '${typeof object2}'.`);
     }
 }
 
-let versions = {};
+let versions: {[index: string]: number} = {};
 
 export function versioned(content: string, id: string): string {
     versions[id] = (versions[id] !== undefined ? versions[id] : -1) + 1;

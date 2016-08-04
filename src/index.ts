@@ -12,6 +12,10 @@ export function dispatch(action: Action) {
     actions.next(action);
 }
 
-export function onRender(callback) {
-    views(states).subscribe(callback);
+interface RenderCallback {
+    (value: string): void
+}
+
+export function onRender(renderCallback: RenderCallback) {
+    views(states).subscribe(renderCallback);
 }
