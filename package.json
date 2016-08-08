@@ -1,10 +1,11 @@
 {
   "name": "state-management-rx",
   "version": "0.0.0",
-  "description": "State management with RxJS",
+  "description": "State management with RxJS prototype",
   "scripts": {
     "dev": "tsc -w | watchify -e dist/index.js -o dist/bundle.js -s todos",
-    "dist": "rm -rf dist && tsc"
+    "dist": "rm -rf dist && tsc && browserify -e dist/index.js -o dist/bundle.js -s todos",
+    "start": "npm run dist && open src/index.html"
   },
   "author": "Alberto Mijares <almilo@almilo.es>",
   "license": "MIT",
