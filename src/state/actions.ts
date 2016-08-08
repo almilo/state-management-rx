@@ -1,4 +1,5 @@
 import { Filter } from './reducer/filter-reducer';
+import { Todo } from './state';
 
 export class AddTodoAction {
     constructor(public title: string) {
@@ -21,12 +22,34 @@ export class ToggleTodoAction {
 }
 
 export class RemoveCompletedTodosAction {
-    constructor() {
-    }
 }
 
 export class SetFilterAction {
     constructor(public filter: Filter) {
+    }
+}
+
+export class FetchTodos {
+}
+
+export class TodosFetched {
+    constructor(public todos: Todo[]) {
+    }
+}
+
+export class TodosFetchingFailed {
+    constructor(public error: string) {
+    }
+}
+
+export class SaveTodos {
+}
+
+export class TodosSaved {
+}
+
+export class TodosSavingFailed {
+    constructor(public error: string) {
     }
 }
 
@@ -35,4 +58,10 @@ export type Action = AddTodoAction |
     RemoveTodoAction |
     ToggleTodoAction |
     RemoveCompletedTodosAction |
-    SetFilterAction;
+    SetFilterAction |
+    FetchTodos |
+    TodosFetched |
+    TodosFetchingFailed |
+    SaveTodos |
+    TodosSaved |
+    TodosSavingFailed;

@@ -24,7 +24,9 @@ export default function (states: Observable<State>): Observable<string> {
             )
             .join('');
 
-        return `<ul class="list-group">${filteredTodosAsListElements}</ul>`;
+        return `<div class="row">
+                    <ul class="list-group">${filteredTodosAsListElements}</ul>
+                </div>`;
     }
 
     function filterTodos(state: State): ViewModel {

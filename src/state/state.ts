@@ -7,7 +7,9 @@ export interface Todo {
 }
 
 interface UiState {
-    filter: Filter
+    filter: Filter,
+    spinner: boolean,
+    message: string
 }
 
 interface BusinessState {

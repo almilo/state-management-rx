@@ -12,11 +12,17 @@ export default function (states: Observable<State>): Observable<string> {
         .map(render); // apply the rendering function
 
     function render(totalsByState: ViewModel): string {
-        return `<span>Pending: ${totalsByState.pending}, Completed: ${totalsByState.completed}
-                    <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
-                        Remove completed
-                    </button>
-                </span>`;
+        return `<div class="row">
+                    <div class="col-md-8">Pending: ${totalsByState.pending}, Completed: ${totalsByState.completed}</div>
+                    <div class="col-md-4">
+                        <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
+                            Remove completed todos
+                        </button>
+                        <button class="btn btn-xs btn-danger" onclick="dispatch(new SaveTodos())">
+                            Save todos
+                        </button>
+                    </div>
+                </div>`;
     }
 
     function groupTodosByState(state: State): ViewModel {
