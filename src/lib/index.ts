@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs/Rx';
 
-interface IEquality<T> {
+interface Equality<T> {
     (value1: T, value2: T): boolean
 }
 
-export function select<T, V>(observable: Observable<T>, selector?: string | Function, equality?: IEquality<T>): Observable<V> {
+export function select<T, V>(observable: Observable<T>, selector?: string | Function, equality?: Equality<T>): Observable<V> {
     return observable
         .map(asFunction(selector)) // select the part of the application state in which we are interested
         .distinctUntilChanged(equality); // don't emmit if the value we are interested in doesn't change

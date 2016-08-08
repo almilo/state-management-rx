@@ -33,7 +33,7 @@
 
     onRender(view => {
         document.getElementById('view').innerHTML = view;
-        document.getElementById('renderings').textContent = `Renderings: ${debug.renderings++}`;
+        document.getElementById('renderings').textContent = `Renderings: ${++debug.renderings}`;
     });
 
     function maybeAddTodo(event) {

@@ -3,7 +3,6 @@ import { State } from '../state';
 import { Action } from '../actions';
 import todosReducer from './todos-reducer';
 import filterReducer from './filter-reducer';
-import { shallowEquals } from '../../lib/index';
 
 export default function (initialState: State, actions: Observable<Action>): Observable<State> {
     const states = Observable.combineLatest( // combine the partial reducers into the application state
@@ -11,7 +10,6 @@ export default function (initialState: State, actions: Observable<Action>): Obse
         filterReducer(initialState.ui.filter, actions),
         (todos, filter) => ({business: {todos}, ui: {filter}})
     )
-        .distinctUntilChanged(shallowEquals) // avoid emitting if not changed
         .share(); // do not set different processing pipelines
 
     return wrapWithBehavior(initialState, states) // use a behaviour to bootstrap the application
