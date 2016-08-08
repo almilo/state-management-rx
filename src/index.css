@@ -1,0 +1,15 @@
+.debug .version {
+    display: none;
+}
+
+.debug-on .debug {
+    border: 1px solid red;
+    position: relative;
+}
+
+.debug-on .debug .version {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+}

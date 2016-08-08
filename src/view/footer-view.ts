@@ -2,11 +2,16 @@ import { Observable } from 'rxjs/Rx';
 import { State, Todo } from '../state/state';
 import { select, shallowEquals } from '../lib';
 
+type ViewModel  = {
+    pending: number,
+    completed: number
+};
+
 export default function (states: Observable<State>): Observable<string> {
     return select(states, groupTodosByState, shallowEquals)  // build the presentation model based on the application state: totals by state
         .map(render); // apply the rendering function
 
-    function render(totalsByState: {pending: number, completed: number}) {
+    function render(totalsByState: ViewModel): string {
         return `<span>Pending: ${totalsByState.pending}, Completed: ${totalsByState.completed}
                     <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
                         Remove completed
@@ -14,7 +19,7 @@ export default function (states: Observable<State>): Observable<string> {
                 </span>`;
     }
 
-    function groupTodosByState(state: State): {} {
+    function groupTodosByState(state: State): ViewModel {
         return state.business.todos.reduce(accumulate, {completed: 0, pending: 0});
 
         function accumulate({completed, pending}, todo: Todo) {

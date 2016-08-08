@@ -4,32 +4,17 @@
     <meta charset="UTF-8">
     <title>State Management with RxJS</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <style>
-        .debug .version {
-            display: none;
-        }
-
-        .debug-on .debug {
-            border: 1px solid red;
-            position: relative;
-        }
-
-        .debug-on .debug .version {
-            display: inline-block;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
-<body onload="document.getElementById('todo-title').focus()">
+<body>
 <div class="container">
     <h1 class="jumbotron">todos</h1>
     <div class="row">
         <div id="renderings" class="col-md-10"></div>
-        <div class="col-md-2"><label class="pull-right"><input type="checkbox" onchange="toggleDebug(this.checked)"> Debug</label></div>
+        <div class="col-md-2"><label class="pull-right"><input type="checkbox" onchange="debug.toggle(this.checked)">
+            Debug</label></div>
     </div>
-    <input id="todo-title" type="text" class="form-control" onkeypress="maybeAddTodo(event)">
+    <input id="todo-title" type="text" class="form-control" onkeypress="maybeAddTodo(event)" autofocus>
     <br/>
     <div id="view"></div>
 </div>
@@ -39,15 +24,16 @@
     // import application exported items into global namespace
     Object.keys(todos).forEach(key => window[key] = todos[key]);
 
-    let renderings = 0;
-    
-    function toggleDebug(value) {
-        document.body.className = value ? 'debug-on' : '';
-    }
+    const debug = {
+        renderings: 0,
+        toggle(value) {
+            document.body.classList.toggle('debug-on', value);
+        }
+    };
 
     onRender(view => {
         document.getElementById('view').innerHTML = view;
-        document.getElementById('renderings').textContent = `Renderings: ${renderings++}`;
+        document.getElementById('renderings').textContent = `Renderings: ${debug.renderings++}`;
     });
 
     function maybeAddTodo(event) {

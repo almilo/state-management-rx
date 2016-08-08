@@ -1,4 +1,4 @@
-import { Filter } from './reducers/filter-reducer';
+import { Filter } from './reducer/filter-reducer';
 
 export interface Todo {
     id: number,

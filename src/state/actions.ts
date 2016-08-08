@@ -1,4 +1,4 @@
-import { Filter } from './reducers/filter-reducer';
+import { Filter } from './reducer/filter-reducer';
 
 export class AddTodoAction {
     constructor(public title: string) {
@@ -30,13 +30,9 @@ export class SetFilterAction {
     }
 }
 
-export class NoopAction {
-}
-
 export type Action = AddTodoAction |
     ModifyTodoAction |
     RemoveTodoAction |
     ToggleTodoAction |
     RemoveCompletedTodosAction |
-    SetFilterAction |
-    NoopAction;
+    SetFilterAction;
