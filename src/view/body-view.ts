@@ -9,8 +9,8 @@ export default function (states: Observable<State>): Observable<string> {
     return select(states, filterTodos, shallowEquals) // build the presentation model based on the application state: filtered todos
         .map(render); // apply the rendering function
 
-    function render(filteredTodos: ViewModel): string {
-        const filteredTodosAsListElements = filteredTodos
+    function render(viewModel: ViewModel): string {
+        const filteredTodosAsListElements = viewModel
             .map(filteredTodo => `<li class="list-group-item">
                               <label>
                                   <input type="checkbox" ${filteredTodo.completed ? ' checked' : ''}

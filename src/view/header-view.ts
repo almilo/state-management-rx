@@ -13,12 +13,12 @@ export default function (states: Observable<State>): Observable<string> {
     return select(states, 'ui') // select all the UI
         .map(render); // apply the rendering function
 
-    function render(ui: ViewModel): string {
+    function render(viewModel: ViewModel): string {
         const filters = ['ALL', 'COMPLETED', 'PENDING']
             .map(filter => {
                 return `<label class="radio-inline">
-                            <input type="radio" name="filter" value="${ui.filter}"
-                                   ${filter === ui.filter ? 'checked' : ''}
+                            <input type="radio" name="filter" value="${viewModel.filter}"
+                                   ${filter === viewModel.filter ? 'checked' : ''}
                                    onchange="dispatch(new SetFilterAction('${filter}'))">
                             ${humanize(filter)}
                         </label>`;
@@ -27,8 +27,8 @@ export default function (states: Observable<State>): Observable<string> {
 
         return `<div class="row">
                     <span class="col-md-3">${filters}</span>
-                    <span class="col-md-8">${ui.message}</span>
-                    <span class="col-md-1" style="visibility: ${ui.spinner ? 'default' : 'hidden'}">Busy...</span>
+                    <span class="col-md-8">${viewModel.message}</span>
+                    <span class="col-md-1" style="visibility: ${viewModel.spinner ? 'default' : 'hidden'}">Busy...</span>
                 </div>`;
 
         function humanize(message: string): string {

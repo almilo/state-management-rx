@@ -11,9 +11,9 @@ export default function (states: Observable<State>): Observable<string> {
     return select(states, groupTodosByState, shallowEquals)  // build the presentation model based on the application state: totals by state
         .map(render); // apply the rendering function
 
-    function render(totalsByState: ViewModel): string {
+    function render(viewModel: ViewModel): string {
         return `<div class="row">
-                    <div class="col-md-8">Pending: ${totalsByState.pending}, Completed: ${totalsByState.completed}</div>
+                    <div class="col-md-8">Pending: ${viewModel.pending}, Completed: ${viewModel.completed}</div>
                     <div class="col-md-4">
                         <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
                             Remove completed todos
