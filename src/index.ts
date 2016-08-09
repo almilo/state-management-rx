@@ -10,7 +10,7 @@ const initialState: State = {
     },
     ui: {
         filter: 'ALL',
-        spinner: false,
+        spinner: 0,
         message: ''
     }
 };

@@ -8,7 +8,7 @@ export interface Todo {
 
 interface UiState {
     filter: Filter,
-    spinner: boolean,
+    spinner: number,
     message: string
 }
 

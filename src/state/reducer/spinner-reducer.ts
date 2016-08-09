@@ -9,13 +9,16 @@ import {
     SaveTodos
 } from '../actions';
 
-export default function (initialState: boolean, actions: Observable<Action>): Observable<boolean> {
+export default function (initialState: number, actions: Observable<Action>): Observable<number> {
     return actions.scan((state, action) => { // apply the action to the last state
         if (action instanceof FetchTodos || action instanceof SaveTodos) {
-            return true;
+            return state + 1;
         } else if (action instanceof TodosFetched || action instanceof TodosFetchingFailed ||
             action instanceof TodosSaved || action instanceof TodosSavingFailed) {
-            return false;
+            if (state < 0) {
+                throw new Error(`Inconsistent spinner counter state: ${state}.`)
+            }
+            return state - 1;
         } else {
             return state;
         }

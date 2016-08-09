@@ -5,7 +5,7 @@ import { Filter } from '../state/reducer/filter-reducer';
 
 type ViewModel = {
     filter: Filter,
-    spinner: boolean,
+    spinner: number,
     message: string
 };
 
@@ -28,7 +28,7 @@ export default function (states: Observable<State>): Observable<string> {
         return `<div class="row">
                     <span class="col-md-3">${filters}</span>
                     <span class="col-md-8">${viewModel.message}</span>
-                    <span class="col-md-1" style="visibility: ${viewModel.spinner ? 'default' : 'hidden'}">Busy...</span>
+                    <span class="col-md-1" style="visibility: ${viewModel.spinner > 0 ? 'default' : 'hidden'}">Busy...</span>
                 </div>`;
 
         function humanize(message: string): string {
