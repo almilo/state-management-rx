@@ -1,20 +1,19 @@
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { State } from '../state';
 import { Action } from '../actions';
-import todosReducer from './todos-reducer';
-import filterReducer from './filter-reducer';
-import spinnerReducer from './spinner-reducer';
-import messageReducer from './message-reducer';
+import { combineObservableFactories } from '../../lib/index';
+import filter from './ui/filter-reducer';
+import spinner from './ui/spinner-reducer';
+import message from './ui/message-reducer';
+import todos from './business/todos-reducer';
 
 export default function (initialState: State, actions: Observable<Action>): Observable<State> {
     const states = Observable.combineLatest( // combine the partial reducers into the application state
-        todosReducer(initialState.business.todos, actions),
-        filterReducer(initialState.ui.filter, actions),
-        spinnerReducer(initialState.ui.spinner, actions),
-        messageReducer(initialState.ui.message, actions),
-        (todos, filter, spinner, message) => ({business: {todos}, ui: {filter, spinner, message}})
+        combineObservableFactories(initialState.ui, actions, {filter, spinner, message}),
+        combineObservableFactories(initialState.business, actions, {todos}),
+        (ui, business) => ({ui, business})
     )
-        .share(); // do not set different processing pipelines
+        .share(); // do not set up different processing pipelines
 
     return wrapWithBehavior(initialState, states) // use a behaviour to bootstrap the application
         .asObservable(); // expose only the observable part

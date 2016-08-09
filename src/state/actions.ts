@@ -1,5 +1,4 @@
-import { Filter } from './reducer/filter-reducer';
-import { Todo } from './state';
+import { Todo, Filter } from './state';
 
 export class AddTodoAction {
     constructor(public title: string) {

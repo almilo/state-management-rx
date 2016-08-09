@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { Todo } from '../state';
+import { Todo } from '../../state';
 import {
     AddTodoAction,
     Action,
@@ -13,10 +13,10 @@ import {
     SaveTodos,
     TodosSavingFailed,
     TodosSaved
-} from '../actions';
-import { shallowEquals } from '../../lib/index';
-import TodosService from '../../services/todos-service';
-import { sideEffect } from '../../index';
+} from '../../actions';
+import { shallowEquals } from '../../../lib/index';
+import TodosService from '../../../services/todos-service';
+import { sideEffect } from '../../../index';
 
 const todosService = new TodosService();
 

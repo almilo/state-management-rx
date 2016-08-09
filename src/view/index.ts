@@ -13,5 +13,5 @@ export default function (states: Observable<State>): Observable<string> {
         (header, body, footer) => `${header}\n${body}\n${footer}`
     )
         .sample(Observable.interval(100)) // debounce the combined view to avoid flickering
-        .share(); // do not set different processing pipelines
+        .share(); // do not set up different processing pipelines
 }

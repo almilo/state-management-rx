@@ -1,5 +1,6 @@
 import { Todo } from '../state/state';
 
+const DELAY = 1000;
 const TODOS_KEY = 'todos';
 
 export default class TodosService {
@@ -7,7 +8,7 @@ export default class TodosService {
         try {
             const todos = JSON.parse(window.localStorage[TODOS_KEY] || '[]');
 
-            return new Promise(resolve => setTimeout(() => resolve(todos), 1000));
+            return new Promise(resolve => setTimeout(() => resolve(todos), DELAY));
         } catch (e) {
             return Promise.reject(e);
         }
@@ -17,7 +18,7 @@ export default class TodosService {
         try {
             window.localStorage[TODOS_KEY] = JSON.stringify(todos);
 
-            return new Promise(resolve => setTimeout(() => resolve(), 1000));
+            return new Promise(resolve => setTimeout(() => resolve(), DELAY));
         } catch (e) {
             return Promise.reject(e);
         }

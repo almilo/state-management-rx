@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { Action, TodosFetchingFailed, TodosSavingFailed } from '../actions';
+import { Action, TodosFetchingFailed, TodosSavingFailed } from '../../actions';
 
 export default function (initialState: string, actions: Observable<Action>): Observable<string> {
     // Reducer pipeline: string + Observable<Action> => Observable<string>

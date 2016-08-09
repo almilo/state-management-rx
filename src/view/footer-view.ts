@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { State, Todo } from '../state/state';
-import { select, shallowEquals } from '../lib';
+import { select } from '../lib';
 
 type ViewModel  = {
     pending: number,
@@ -8,9 +8,9 @@ type ViewModel  = {
 };
 
 export default function (states: Observable<State>): Observable<string> {
+    //                                  select                   render
     // Render pipeline: Observable<State> => Observable<ViewModel> => Observable<string>
-    return select<State, ViewModel>(states, groupTodosByState, shallowEquals)  // build the presentation model based on the application state: totals by state
-        .map(render); // apply the rendering function
+    return select<State, ViewModel>(states, groupTodosByState).map(render);
 
     function render(viewModel: ViewModel): string {
         return `<div class="row">

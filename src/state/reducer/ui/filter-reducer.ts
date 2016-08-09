@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/Rx';
-import { SetFilterAction, Action } from '../actions';
-
-export type Filter = 'ALL' | 'COMPLETED' | 'PENDING';
+import { SetFilterAction, Action } from '../../actions';
+import { Filter } from '../../state';
 
 export default function (initialState: Filter, actions: Observable<Action>): Observable<Filter> {
     // Reducer pipeline: Filter + Observable<Action> => Observable<Filter>
