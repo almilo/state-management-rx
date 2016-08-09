@@ -74,7 +74,7 @@ export function combineObservableFactories<T>(initialState: T, actions: Observab
         }
     };
 
-    return Observable.combineLatest.call(undefined, [...observables])
+    return Observable.combineLatest.call(undefined, observables)
         .map(combineObservableResults)
         .share(); // do not set up different processing pipelines
 }
