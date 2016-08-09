@@ -16,11 +16,12 @@ import {
 } from '../actions';
 import { shallowEquals } from '../../lib/index';
 import TodosService from '../../services/todos-service';
-import { dispatch } from '../../index';
+import { sideEffect } from '../../index';
 
 const todosService = new TodosService();
 
 export default function (initialState: Todo[], actions: Observable<Action>): Observable<Todo[]> {
+    // Reducer pipeline: Todo[] + Observable<Action> => Observable<Todo[]>
     return actions.scan((state, action) => { // apply the action to the last state
         if (action instanceof AddTodoAction) {
             return [...state, createTodo(undefined, action.title)];
@@ -35,15 +36,19 @@ export default function (initialState: Todo[], actions: Observable<Action>): Obs
         } else if (action instanceof ToggleTodoAction) {
             return [...state].map(todo => todo.id !== action.id ? todo : createTodo(todo.id, todo.title, !todo.completed));
         } else if (action instanceof FetchTodos) {
-            todosService.load()
-                .then((todos: Todo[]) => dispatch(new TodosFetched(todos)))
-                .catch(error => dispatch(new TodosFetchingFailed(error)));
+            sideEffect(dispatch => {
+                todosService.load()
+                    .then((todos: Todo[]) => dispatch(new TodosFetched(todos)))
+                    .catch(error => dispatch(new TodosFetchingFailed(error)));
+            });
 
             return state;
         } else if (action instanceof SaveTodos) {
-            todosService.save(state)
-                .then((todos: Todo[]) => dispatch(new TodosSaved()))
-                .catch(error => dispatch(new TodosSavingFailed(error)));
+            sideEffect(dispatch => {
+                todosService.save(state)
+                    .then((todos: Todo[]) => dispatch(new TodosSaved()))
+                    .catch(error => dispatch(new TodosSavingFailed(error)));
+            });
 
             return state;
         } else if (action instanceof TodosFetched) {

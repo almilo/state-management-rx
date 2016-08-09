@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Rx';
 import { Action, TodosFetchingFailed, TodosSavingFailed } from '../actions';
 
 export default function (initialState: string, actions: Observable<Action>): Observable<string> {
+    // Reducer pipeline: string + Observable<Action> => Observable<string>
     return actions.scan((state, action) => { // apply the action to the last state
         if (action instanceof TodosFetchingFailed) {
             return `Fetching the todo list failed: '${action.error}'.`;

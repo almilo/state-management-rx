@@ -10,6 +10,7 @@ import {
 } from '../actions';
 
 export default function (initialState: number, actions: Observable<Action>): Observable<number> {
+    // Reducer pipeline: number + Observable<Action> => Observable<number>
     return actions.scan((state, action) => { // apply the action to the last state
         if (action instanceof FetchTodos || action instanceof SaveTodos) {
             return state + 1;

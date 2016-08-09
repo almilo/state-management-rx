@@ -4,6 +4,7 @@ import { SetFilterAction, Action } from '../actions';
 export type Filter = 'ALL' | 'COMPLETED' | 'PENDING';
 
 export default function (initialState: Filter, actions: Observable<Action>): Observable<Filter> {
+    // Reducer pipeline: Filter + Observable<Action> => Observable<Filter>
     return actions.scan((state, action) => { // apply the action to the last state
         if (action instanceof SetFilterAction) {
             return action.filter;

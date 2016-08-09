@@ -34,3 +34,15 @@ export function onRender(renderCallback: RenderCallback) {
 export function bootstrap() {
     dispatch(new FetchTodos());
 }
+
+interface ActionDispatcher {
+    (action: Action): void
+}
+
+interface SideEffectCallback {
+    (dispatch: ActionDispatcher): void
+}
+
+export function sideEffect(sideEffectCallback: SideEffectCallback) {
+    sideEffectCallback(dispatch);
+}
