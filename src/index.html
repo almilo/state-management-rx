@@ -8,14 +8,20 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="jumbotron">todos</h1>
+    <div class="row">
+        <h1 class="jumbotron">todos</h1>
+    </div>
     <div class="row">
         <div id="renderings" class="col-md-10"></div>
-        <div class="col-md-2"><label class="pull-right"><input type="checkbox" onchange="debug.toggle(this.checked)">
-            Debug</label></div>
+        <div class="col-md-2">
+            <label class="pull-right">
+                <input type="checkbox" onchange="debug.toggle(this.checked)">&nbsp;Debug
+            </label>
+        </div>
     </div>
-    <input id="todo-title" type="text" class="form-control" onkeypress="maybeAddTodo(event)" autofocus>
-    <br/>
+    <div class="row">
+        <input id="todo-title" type="text" class="form-control" onkeypress="maybeAddTodo(event)" autofocus>
+    </div>
     <div id="view"></div>
 </div>
 
