@@ -8,7 +8,8 @@ type ViewModel  = {
 };
 
 export default function (states: Observable<State>): Observable<string> {
-    return select(states, groupTodosByState, shallowEquals)  // build the presentation model based on the application state: totals by state
+    // Render pipeline: Observable<State> => Observable<ViewModel> => Observable<string>
+    return select<State, ViewModel>(states, groupTodosByState, shallowEquals)  // build the presentation model based on the application state: totals by state
         .map(render); // apply the rendering function
 
     function render(viewModel: ViewModel): string {

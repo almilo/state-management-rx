@@ -39,10 +39,12 @@ export function shallowEquals<T>(object1: Object | Array<T>, object2: Object | A
 
 const versions: {[index: string]: number} = {};
 
-export function versioned(content: string, id: string): string {
-    versions[id] = (versions[id] !== undefined ? versions[id] : -1) + 1;
+export function versioned(views: Observable<string>, id: string): Observable<string> {
+    return views.map(view => {
+        versions[id] = (versions[id] !== undefined ? versions[id] : -1) + 1;
 
-    return `<div class="debug">${content}<span class="version">version: ${versions[id]}&nbsp;</span></div>`;
+        return `<div class="debug">${view}<span class="version">version: ${versions[id]}&nbsp;</span></div>`;
+    });
 }
 
 function getPath(obj: Object, path: string): any {

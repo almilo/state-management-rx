@@ -6,7 +6,8 @@ import { Filter } from '../state/reducer/filter-reducer';
 type ViewModel = Todo[];
 
 export default function (states: Observable<State>): Observable<string> {
-    return select(states, filterTodos, shallowEquals) // build the presentation model based on the application state: filtered todos
+    // Render pipeline: Observable<State> => Observable<ViewModel> => Observable<string>
+    return select<State, ViewModel>(states, filterTodos, shallowEquals) // build the presentation model based on the application state: filtered todos
         .map(render); // apply the rendering function
 
     function render(viewModel: ViewModel): string {

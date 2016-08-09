@@ -7,9 +7,9 @@ import { versioned } from '../lib/index';
 
 export default function (states: Observable<State>): Observable<string> {
     return Observable.combineLatest( // combine all the views into the main view using the most up-to-date values
-        headerView(states).map(view => versioned(view, 'header')),
-        bodyView(states).map(view => versioned(view, 'body')),
-        footerView(states).map(view => versioned(view, 'footer')),
+        versioned(headerView(states), 'header'),
+        versioned(bodyView(states), 'body'),
+        versioned(footerView(states), 'footer'),
         (header, body, footer) => `${header}\n${body}\n${footer}`
     )
         .sample(Observable.interval(100)) // debounce the combined view to avoid flickering

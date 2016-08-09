@@ -10,7 +10,8 @@ type ViewModel = {
 };
 
 export default function (states: Observable<State>): Observable<string> {
-    return select(states, 'ui') // select all the UI
+    // Render pipeline: Observable<State> => Observable<ViewModel> => Observable<string>
+    return select<State, ViewModel>(states, 'ui') // select all the UI
         .map(render); // apply the rendering function
 
     function render(viewModel: ViewModel): string {
