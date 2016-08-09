@@ -1,10 +1,10 @@
 import { Subject } from 'rxjs/Rx';
 import { Action, FetchTodos } from './state/actions';
+import { State } from './state/state';
 import reducer from './state/reducer';
 import view from './view';
 
-const actions = new Subject<Action>();
-const states = reducer({
+const initialState: State = {
     business: {
         todos: []
     },
@@ -13,7 +13,9 @@ const states = reducer({
         spinner: false,
         message: ''
     }
-}, actions);
+};
+const actions = new Subject<Action>();
+const states = reducer(initialState, actions);
 
 export * from './state/actions';
 
