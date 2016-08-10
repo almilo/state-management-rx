@@ -2,7 +2,6 @@ import { Subject } from 'rxjs/Rx';
 import { Action, FetchTodosAction } from './state/actions';
 import { State } from './state/state';
 import reducer from './state/reducer';
-import view from './view';
 
 const initialState: State = {
     business: {
@@ -15,20 +14,13 @@ const initialState: State = {
     }
 };
 const actions = new Subject<Action>();
-const states = reducer(initialState, actions);
+export const states = reducer(initialState, actions);
 
 export * from './state/actions';
+export * from './state/state';
 
 export function dispatch(action: Action) {
     actions.next(action);
-}
-
-interface RenderCallback {
-    (value: string): void
-}
-
-export function onRender(renderCallback: RenderCallback) {
-    view(states).subscribe(renderCallback);
 }
 
 export function bootstrap() {
