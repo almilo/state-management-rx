@@ -28,26 +28,26 @@ export class SetFilterAction {
     }
 }
 
-export class FetchTodos {
+export class FetchTodosAction {
 }
 
-export class TodosFetched {
+export class TodosFetchedAction {
     constructor(public todos: Todo[]) {
     }
 }
 
-export class TodosFetchingFailed {
+export class TodosFetchingFailedAction {
     constructor(public error: string) {
     }
 }
 
-export class SaveTodos {
+export class SaveTodosAction {
 }
 
-export class TodosSaved {
+export class TodosSavedAction {
 }
 
-export class TodosSavingFailed {
+export class TodosSavingFailedAction {
     constructor(public error: string) {
     }
 }
@@ -58,9 +58,9 @@ export type Action = AddTodoAction |
     ToggleTodoAction |
     RemoveCompletedTodosAction |
     SetFilterAction |
-    FetchTodos |
-    TodosFetched |
-    TodosFetchingFailed |
-    SaveTodos |
-    TodosSaved |
-    TodosSavingFailed;
+    FetchTodosAction |
+    TodosFetchedAction |
+    TodosFetchingFailedAction |
+    SaveTodosAction |
+    TodosSavedAction |
+    TodosSavingFailedAction;

@@ -7,12 +7,12 @@ import {
     RemoveTodoAction,
     RemoveCompletedTodosAction,
     ModifyTodoAction,
-    FetchTodos,
-    TodosFetchingFailed,
-    TodosFetched,
-    SaveTodos,
-    TodosSavingFailed,
-    TodosSaved
+    FetchTodosAction,
+    TodosFetchingFailedAction,
+    TodosFetchedAction,
+    SaveTodosAction,
+    TodosSavingFailedAction,
+    TodosSavedAction
 } from '../../actions';
 import { shallowEquals } from '../../../lib/index';
 import TodosService from '../../../services/todos-service';
@@ -35,23 +35,23 @@ export default function (initialState: Todo[], actions: Observable<Action>): Obs
             return pending.length !== state.length ? pending : state;
         } else if (action instanceof ToggleTodoAction) {
             return [...state].map(todo => todo.id !== action.id ? todo : createTodo(todo.id, todo.title, !todo.completed));
-        } else if (action instanceof FetchTodos) {
+        } else if (action instanceof FetchTodosAction) {
             sideEffect(dispatch => {
                 todosService.load()
-                    .then((todos: Todo[]) => dispatch(new TodosFetched(todos)))
-                    .catch(error => dispatch(new TodosFetchingFailed(error)));
+                    .then((todos: Todo[]) => dispatch(new TodosFetchedAction(todos)))
+                    .catch(error => dispatch(new TodosFetchingFailedAction(error)));
             });
 
             return state;
-        } else if (action instanceof SaveTodos) {
+        } else if (action instanceof SaveTodosAction) {
             sideEffect(dispatch => {
                 todosService.save(state)
-                    .then((todos: Todo[]) => dispatch(new TodosSaved()))
-                    .catch(error => dispatch(new TodosSavingFailed(error)));
+                    .then((todos: Todo[]) => dispatch(new TodosSavedAction()))
+                    .catch(error => dispatch(new TodosSavingFailedAction(error)));
             });
 
             return state;
-        } else if (action instanceof TodosFetched) {
+        } else if (action instanceof TodosFetchedAction) {
             return action.todos;
         } else {
             return state;

@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs/Rx';
-import { Action, FetchTodos } from './state/actions';
+import { Action, FetchTodosAction } from './state/actions';
 import { State } from './state/state';
 import reducer from './state/reducer';
 import view from './view';
@@ -32,7 +32,7 @@ export function onRender(renderCallback: RenderCallback) {
 }
 
 export function bootstrap() {
-    dispatch(new FetchTodos());
+    dispatch(new FetchTodosAction());
 }
 
 interface ActionDispatcher {

@@ -19,7 +19,7 @@ export default function (states: Observable<State>): Observable<string> {
                         <button class="btn btn-xs btn-danger" onclick="dispatch(new RemoveCompletedTodosAction())">
                             Remove completed todos
                         </button>
-                        <button class="btn btn-xs btn-danger" onclick="dispatch(new SaveTodos())">
+                        <button class="btn btn-xs btn-danger" onclick="dispatch(new SaveTodosAction())">
                             Save todos
                         </button>
                     </div>
