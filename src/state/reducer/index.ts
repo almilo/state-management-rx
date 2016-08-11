@@ -1,4 +1,4 @@
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { State } from '../state';
 import { Action } from '../actions';
 import { combineObservableFactories, toObservableFactory } from '../../lib/index';
@@ -8,7 +8,7 @@ import messageReducer from './ui/message-reducer';
 import todosReducer from './business/todos-reducer';
 
 export default function (initialState: State, actions: Observable<Action>): Observable<State> {
-    const states = Observable.combineLatest(
+    return Observable.combineLatest(
         combineObservableFactories(
             initialState.ui,
             actions,
@@ -27,15 +27,4 @@ export default function (initialState: State, actions: Observable<Action>): Obse
         (ui, business) => ({ui, business})
     )
         .share(); // do not set up different processing pipelines
-
-    return wrapWithBehavior(initialState, states) // use a behaviour to bootstrap the application
-        .asObservable(); // expose only the observable part
-
-    function wrapWithBehavior(initialValue: State, observable: Observable<State>) {
-        const behaviorSubject = new BehaviorSubject(initialValue);
-
-        observable.subscribe(value => behaviorSubject.next(value));
-
-        return behaviorSubject;
-    }
 }
