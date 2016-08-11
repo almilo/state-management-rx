@@ -25,7 +25,7 @@ export function select<T, V>(observable: Observable<T>, selector?: string | Func
     }
 }
 
-export function shallowEquals(value1: any, value2: any): boolean {
+function shallowEquals(value1: any, value2: any): boolean {
     if (value1 instanceof Array && value2 instanceof Array) {
         return value1.length === value2.length && value1.every((item: any, index: number) => value1[index] === value2[index]);
     } else if (value1 instanceof Object && value2 instanceof Object) {
@@ -52,11 +52,11 @@ export function versioned(views: Observable<string>, id: string): Observable<str
     });
 }
 
-interface ObservableFactory {
-    (initialState: Object, actions: Observable<Action>): Observable<Object>
+interface ObservableFactory<T> {
+    (initialState: T, actions: Observable<Action>): Observable<T>
 }
 
-export function combineObservableFactories<T>(initialState: T, actions: Observable<Action>, reducerMap: {[reducerName: string]: ObservableFactory}): Observable<T> {
+export function combineObservableFactories<T>(initialState: T, actions: Observable<Action>, reducerMap: {[reducerName: string]: ObservableFactory<Object>}): Observable<T> {
     const reducerNames = Object.keys(reducerMap);
     const observables = reducerNames.map(reducerName => {
         const reducerInitialState = (<{[key: string]: any}>initialState)[reducerName];
@@ -77,4 +77,12 @@ export function combineObservableFactories<T>(initialState: T, actions: Observab
     return Observable.combineLatest.call(undefined, observables)
         .map(combineObservableResults)
         .share(); // do not set up different processing pipelines
+}
+
+interface Reducer<T> {
+    (state: T, action: Action): T
+}
+
+export function toObservableFactory<T>(reducer: Reducer<T>, equality: Equality<T> = shallowEquals): ObservableFactory<T> {
+    return (initialState: T, actions: Observable<Action>) => actions.scan(reducer, initialState).distinctUntilChanged(equality);
 }
