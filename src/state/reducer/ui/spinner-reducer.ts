@@ -11,7 +11,10 @@ import {
 
 export default function (initialState: number, actions: Observable<Action>): Observable<number> {
     // Reducer pipeline: number + Observable<Action> => Observable<number>
-    return actions.scan((state, action) => { // apply the action to the last state
+    return actions.scan(reducer, initialState) // emmit the initial state to bootstrap the application
+        .distinctUntilChanged(); // avoid emitting if not changed
+
+    function reducer(state: number, action: Action) { // apply the action to the last state
         if (action instanceof FetchTodosAction || action instanceof SaveTodosAction) {
             return state + 1;
         } else if (action instanceof TodosFetchedAction || action instanceof TodosFetchingFailedAction ||
@@ -24,6 +27,5 @@ export default function (initialState: number, actions: Observable<Action>): Obs
         } else {
             return state;
         }
-    }, initialState) // emmit the initial state to bootstrap the application
-        .distinctUntilChanged(); // avoid emitting if not changed
+    }
 }
