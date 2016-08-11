@@ -22,7 +22,10 @@ const todosService = new TodosService();
 
 export default function (initialState: Todo[], actions: Observable<Action>): Observable<Todo[]> {
     // Reducer pipeline: Todo[] + Observable<Action> => Observable<Todo[]>
-    return actions.scan((state, action) => { // apply the action to the last state
+    return actions.scan(reducer, initialState) // emmit the initial state to bootstrap the application
+        .distinctUntilChanged(shallowEquals); // avoid emitting if not changed
+
+    function reducer(state: Todo[], action: Action) { // apply the action to the last state
         if (action instanceof AddTodoAction) {
             return [...state, createTodo(undefined, action.title)];
         } else if (action instanceof ModifyTodoAction) {
@@ -56,8 +59,7 @@ export default function (initialState: Todo[], actions: Observable<Action>): Obs
         } else {
             return state;
         }
-    }, initialState) // emmit the initial state to bootstrap the application
-        .distinctUntilChanged(shallowEquals); // avoid emitting if not changed
+    }
 }
 
 let nextId = Date.now();
