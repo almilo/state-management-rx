@@ -8,7 +8,7 @@ import {
     SaveTodosAction
 } from '../../actions';
 
-export default function (state: number, action: Action) {
+export default function (state: number, action: Action): number {
     if (action instanceof FetchTodosAction || action instanceof SaveTodosAction) {
         return state + 1;
     } else if (action instanceof TodosFetchedAction || action instanceof TodosFetchingFailedAction ||
