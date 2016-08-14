@@ -24,7 +24,7 @@ export function dispatch(action: Action) {
 }
 
 interface RenderCallback {
-    (value: string): void
+    (view: string): void
 }
 
 export function onRender(renderCallback: RenderCallback) {
