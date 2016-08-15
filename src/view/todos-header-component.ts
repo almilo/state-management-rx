@@ -1,5 +1,5 @@
-import { Component, Input } from 'angular2/core';
-import { Filter, dispatch, SetFilterAction } from 'todos';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
+import { Filter } from 'todos';
 
 @Component({
     selector: 'todos-header',
@@ -7,7 +7,7 @@ import { Filter, dispatch, SetFilterAction } from 'todos';
                    <label class="radio-inline" *ngFor="let currentFilter of filters">
                        <input type="radio" name="filter"
                               [checked]="filter === currentFilter"
-                              (click)="setFilter(currentFilter)">
+                              (click)="setFilter.emit(currentFilter)">
                        {{humanize(currentFilter)}}
                     </label>
                 </span>
@@ -21,12 +21,10 @@ export class TodosHeaderComponent {
     @Input() spinner: number;
     @Input() message: string;
 
+    @Output setFilter = new EventEmitter();
+
     ngOnChanges(changes: any) {
         console.log('HEADER CHANGES:', JSON.stringify(changes));
-    }
-
-    setFilter(filter: Filter) {
-        dispatch(new SetFilterAction(filter));
     }
 
     humanize(message: string): string {

@@ -1,14 +1,14 @@
-import { Component, Input } from 'angular2/core';
-import { Todo, dispatch, RemoveCompletedTodosAction, SaveTodosAction } from 'todos';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
+import { Todo } from 'todos';
 
 @Component({
     selector: 'todos-footer',
     template: `<span class="col-md-8">Pending: {{pending}}, Completed: {{completed}}</span>
                <span class="col-md-4">
-                   <button class="btn btn-xs btn-danger" (click)="removeCompletedTodos()">
+                   <button class="btn btn-xs btn-danger" (click)="removeCompletedTodos.emit()">
                        Remove completed todos
                    </button>
-                   <button class="btn btn-xs btn-danger" (click)="saveTodos()">
+                   <button class="btn btn-xs btn-danger" (click)="saveTodos.emit()">
                        Save todos
                    </button>
                </span>`
@@ -25,16 +25,11 @@ export class TodosFooterComponent {
         this.pending = pending;
     }
 
+    @Output() removeCompletedTodos = new EventEmitter();
+    @Output() saveTodos = new EventEmitter();
+
     ngOnChanges(changes: any) {
         console.log('FOOTER CHANGES:', JSON.stringify(changes));
-    }
-
-    saveTodos() {
-        dispatch(new SaveTodosAction());
-    }
-
-    removeCompletedTodos() {
-        dispatch(new RemoveCompletedTodosAction());
     }
 }
 

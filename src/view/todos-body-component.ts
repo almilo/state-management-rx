@@ -1,5 +1,5 @@
-import { Component, Input } from 'angular2/core';
-import { Todo, Filter, dispatch, ToggleTodoAction, RemoveTodoAction } from 'todos';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
+import { Todo, Filter } from 'todos';
 
 @Component({
     selector: 'todos-body',
@@ -9,11 +9,10 @@ import { Todo, Filter, dispatch, ToggleTodoAction, RemoveTodoAction } from 'todo
                        <label>
                            <input type="checkbox"
                                   [checked]="filteredTodo.completed"
-                                  (click)="toggleTodo(filteredTodo)"
-                                  [class.completed]="filteredTodo.completed">&nbsp;
-                           {{filteredTodo.title}}
+                                  (click)="todoToggled.emit(filteredTodo)">&nbsp;
+                           <span [class.completed]="filteredTodo.completed">{{filteredTodo.title}}</span>                           
                        </label>
-                       <button class="close" (click)="removeTodo(filteredTodo)">
+                       <button class="close" (click)="todoRemoved.emit(filteredTodo);">
                            <span>&times;</span>
                        </button>
                    </li>
@@ -38,6 +37,9 @@ export class TodosBodyComponent {
         this.maybeFilter();
     }
 
+    @Output() todoToggled = new EventEmitter();
+    @Output() todoRemoved = new EventEmitter();
+
     ngOnChanges(changes: any) {
         console.log('BODY CHANGES:', JSON.stringify(changes));
     }
@@ -46,14 +48,6 @@ export class TodosBodyComponent {
         if (this.lastFilter && this.lastTodos) {
             this.filteredTodos = filterTodos(this.lastTodos, this.lastFilter);
         }
-    }
-
-    toggleTodo(todo: Todo) {
-        dispatch(new ToggleTodoAction(todo.id));
-    }
-
-    removeTodo(todo: Todo) {
-        dispatch(new RemoveTodoAction(todo.id));
     }
 }
 
