@@ -12,7 +12,7 @@ import { Filter } from 'todos';
                     </label>
                 </span>
                 <span class="col-md-8">{{message}}</span>
-                <span class="col-md-1" class="busy-indicator" [style.visibility]="spinner > 0 ? 'visible' : 'hidden'">Busy...</span>`
+                <span class="col-md-1" [style.visibility]="spinner > 0 ? 'visible' : 'hidden'">Busy...</span>`
 })
 export class TodosHeaderComponent {
     filters: Array<Filter> = ['ALL', 'COMPLETED', 'PENDING'];
@@ -21,7 +21,7 @@ export class TodosHeaderComponent {
     @Input() spinner: number;
     @Input() message: string;
 
-    @Output setFilter = new EventEmitter();
+    @Output() setFilter = new EventEmitter();
 
     ngOnChanges(changes: any) {
         console.log('HEADER CHANGES:', JSON.stringify(changes));
