@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TodosBody = React.createClass({
+export class TodosBody extends React.Component {
     render() {
         const todos = this.state.filteredTodos.map(renderTodo.bind(this));
 
@@ -25,24 +25,28 @@ export const TodosBody = React.createClass({
                 </li>
             );
         }
-    },
-    getInitialState() {
-        return {
-            filteredTodos: filterTodos(this.props.todos, this.props.filter)
+    }
+
+    constructor() {
+        this.state = {
+            filteredTodos: []
         };
-    },
+    }
+
     componentWillReceiveProps(props) {
         this.setState({
             filteredTodos: filterTodos(props.todos, props.filter)
         });
-    },
+    }
+
     toggleTodo(todo) {
         return () => this.props.toggleTodo(todo);
-    },
+    }
+
     removeTodo(todo) {
         return () => this.props.removeTodo(todo);
     }
-});
+}
 
 function filterTodos(todos, filter) {
     return todos.filter(todo => matches(todo, filter));

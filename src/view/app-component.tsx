@@ -15,7 +15,7 @@ import { TodosHeader } from './todos-header-component';
 import { TodosBody } from './todos-body-component';
 import { TodosFooter } from './todos-footer-component';
 
-export const App = React.createClass({
+export class App extends React.Component {
     render() {
         return (
             <div>
@@ -54,32 +54,50 @@ export const App = React.createClass({
                 </div>
             </div>
         );
-    },
-    getInitialState() {
-        return {
-            renderings: 0,
-            ui: {
-                filter: 'ALL',
-                message: '',
-                spinner: 0
-            },
-            business: {
-                todos: []
-            }
-        };
-    },
+    }
+
+    constructor() {
+        this.state = Object.assign(
+            {},
+            {renderings: 0},
+            states.getValue()
+        );
+    }
+
     componentDidMount() {
         this.subscription = states.subscribe(state => {
-            this.setState({
-                renderings: this.state.renderings + 1,
-                ui: state.ui,
-                business: state.business
-            });
+            this.setState(Object.assign(
+                {},
+                {renderings: this.state.renderings + 1},
+                state
+            ));
         });
-    },
+    }
+
     componentWillUnmount() {
         this.subscription.unsubscribe();
-    },
+    }
+
+    setFilter(filter) {
+        dispatch(new SetFilterAction(filter));
+    }
+
+    toggleTodo(todo) {
+        dispatch(new ToggleTodoAction(todo.id));
+    }
+
+    removeTodo(todo) {
+        dispatch(new RemoveTodoAction(todo.id));
+    }
+
+    removeCompletedTodos() {
+        dispatch(new RemoveCompletedTodosAction());
+    }
+
+    saveTodos() {
+        dispatch(new SaveTodosAction());
+    }
+
     maybeAddTodo(event) {
         const target = event.target;
         const inputValue = target.value.trim();
@@ -88,23 +106,8 @@ export const App = React.createClass({
             dispatch(new AddTodoAction(inputValue));
             target.value = '';
         }
-    },
-    setFilter(filter) {
-        dispatch(new SetFilterAction(filter));
-    },
-    toggleTodo(todo) {
-        dispatch(new ToggleTodoAction(todo.id));
-    },
-    removeTodo(todo) {
-        dispatch(new RemoveTodoAction(todo.id));
-    },
-    removeCompletedTodos() {
-        dispatch(new RemoveCompletedTodosAction());
-    },
-    saveTodos() {
-        dispatch(new SaveTodosAction());
     }
-});
+}
 
 export function bootstrap(elementId) {
     ReactDOM.render(<App/>, document.getElementById(elementId));

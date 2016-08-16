@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TodosFooter = React.createClass({
+export class TodosFooter extends React.Component {
     render() {
         return (
             <div>
@@ -16,25 +16,29 @@ export const TodosFooter = React.createClass({
                 </span>
             </div>
         );
-    },
-    getInitialState() {
-        return groupTodosByState(this.props.todos);
-    },
+    }
+
+    constructor() {
+        this.state = {completed: 0, pending: 0};
+    }
+
     componentWillReceiveProps(props) {
         this.setState(groupTodosByState(props.todos));
-    },
+    }
+
     saveTodos() {
         return () => this.props.saveTodos();
-    },
+    }
+
     removeCompletedTodos() {
         return () => this.props.removeCompletedTodos();
     }
-});
+}
 
 function groupTodosByState(todos) {
-    return todos.reduce(accumulate, { completed: 0, pending: 0 });
+    return todos.reduce(accumulate, {completed: 0, pending: 0});
 
-    function accumulate({ completed, pending }, todo) {
+    function accumulate({completed, pending}, todo) {
         return {
             completed: todo.completed ? completed + 1 : completed,
             pending: !todo.completed ? pending + 1 : pending
