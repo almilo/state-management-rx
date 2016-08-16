@@ -1,0 +1,84 @@
+<link rel="import" href="https://polygit.org/components/polymer/polymer.html">
+<link rel="import" href="todos-header-element.html">
+<link rel="import" href="todos-body-element.html">
+<link rel="import" href="todos-footer-element.html">
+
+<dom-module id="app-element">
+    <template>
+        <div class="row">
+            <span>Renderings: {{ renderings }}</span>
+        </div>
+        <div class="row">
+            <input type="text"
+                   class="form-control"
+                   on-keypress="maybeAddTodo"
+                   autofocus>
+        </div>
+        <div class="row">
+            <todos-header-element
+                    filter="[[state.ui.filter]]"
+                    message="[[state.ui.message]]"
+                    spinner="[[state.ui.spinner]]"
+                    on-set-filter="setFilter">
+            </todos-header-element>
+        </div>
+        <div class="row">
+            <todos-body-element
+                    todos="[[state.business.todos]]"
+                    filter="[[state.ui.filter]]"
+                    on-toggle-todo="toggleTodo"
+                    on-remove-todo="removeTodo">
+            </todos-body-element>
+        </div>
+        <div class="row">
+            <todos-footer-element
+                    todos="[[state.business.todos]]"
+                    on-remove-completed-todos="removeCompletedTodos"
+                    on-save-todos="saveTodos">
+            </todos-footer-element>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'app-element',
+            attached() {
+                this.renderings = 0;
+
+                this.subscription = todos.states.subscribe(state => {
+                    this.state = state;
+                    this.renderings = this.renderings + 1;
+                });
+
+                todos.bootstrap();
+            },
+            detached() {
+                this.subscription.unsuscribe();
+            },
+            setFilter(event) {
+                todos.dispatch(new todos.SetFilterAction(event.detail));
+            },
+            toggleTodo(event) {
+                todos.dispatch(new todos.ToggleTodoAction(event.detail.id));
+            },
+            removeTodo(event) {
+                todos.dispatch(new todos.RemoveTodoAction(event.detail.id));
+            },
+            removeCompletedTodos() {
+                todos.dispatch(new todos.RemoveCompletedTodosAction());
+            },
+            saveTodos() {
+                todos.dispatch(new todos.SaveTodosAction());
+            },
+            maybeAddTodo(event) {
+                const target = event.target;
+                const inputValue = target.value.trim();
+
+                if (event.charCode === 13 && inputValue.length > 0) {
+                    todos.dispatch(new todos.AddTodoAction(inputValue));
+                    target.value = '';
+                }
+            }
+        });
+    </script>
+</dom-module>

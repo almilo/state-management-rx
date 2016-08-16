@@ -1,0 +1,42 @@
+<link rel="import" href="https://polygit.org/components/polymer/polymer.html">
+
+<dom-module id="todos-header-element">
+    <template>
+        <span class="col-md-3">
+            <template is="dom-repeat" items="{{ filters }}">
+                <label class="radio-inline">
+                    <input type="radio" name="filter" checked$="{{ checked(item, filter) }}" on-click="setFilter">
+                    {{ humanize(item) }}
+                </label>
+            </template>
+        </span>
+        <span class="col-md-8">{{ message }}</span>
+        <span class="col-md-1" style$="{{ busyStyle(spinner) }}">Busy...</span>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'todos-header-element',
+            properties: {
+                filter: String,
+                message: String,
+                spinner: Number
+            },
+            attached() {
+                this.filters = ['ALL', 'COMPLETED', 'PENDING'];
+            },
+            setFilter(event) {
+                this.fire('set-filter', event.model.item);
+            },
+            checked(currentFilter, filter) {
+                return currentFilter === filter;
+            },
+            busyStyle(spinner) {
+                return `visibility: ${spinner === 0 ? 'hidden' : 'visible'}`;
+            },
+            humanize(message) {
+                return message.toLowerCase().replace(/_/g, ' ');
+            }
+        });
+    </script>
+</dom-module>

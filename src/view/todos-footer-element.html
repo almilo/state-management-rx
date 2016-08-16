@@ -1,0 +1,44 @@
+<link rel="import" href="https://polygit.org/components/polymer/polymer.html">
+
+<dom-module id="todos-footer-element">
+    <template>
+        <span class="col-md-8">Pending: {{ totals.pending }}, Completed: {{ totals.completed }}</span>
+        <span class="col-md-4">
+                    <button class="btn btn-xs btn-danger" on-click="removeCompletedTodos">
+                        Remove completed todos
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-xs btn-danger" on-click="saveTodos">
+                        Save todos
+                    </button>
+                </span>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'todos-footer-element',
+            properties: {
+                todos: Array
+            },
+            observers: [
+                'groupTodosByState(todos)'
+            ],
+            saveTodos() {
+                this.fire('save-todos');
+            },
+            removeCompletedTodos() {
+                this.fire('remove-completed-todos');
+            },
+            groupTodosByState(todos) {
+                this.totals = todos.reduce(accumulate, { completed: 0, pending: 0 });
+
+                function accumulate({ completed, pending }, todo) {
+                    return {
+                        completed: todo.completed ? completed + 1 : completed,
+                        pending: !todo.completed ? pending + 1 : pending
+                    };
+                }
+            }
+        });
+    </script>
+</dom-module>

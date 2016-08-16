@@ -1,0 +1,62 @@
+<link rel="import" href="https://polygit.org/components/polymer/polymer.html">
+
+<dom-module id="todos-body-element">
+    <template>
+        <ul class="list-group">
+            <template is="dom-repeat" items="{{ filteredTodos }}">
+                <li class="list-group-item">
+                    <label>
+                        <input type="checkbox"
+                               checked$="{{ completed(item) }}"
+                               on-click="toggleTodo">&nbsp;
+                        <span style$="{{ completedStyle(item) }}">{{item.title}}</span>
+                    </label>
+                    <button class="close" on-click="removeTodo">
+                        <span>&times;</span>
+                    </button>
+                </li>
+            </template>
+        </ul>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'todos-body-element',
+            properties: {
+                todos: Array,
+                filter: String
+            },
+            observers: [
+                'filterTodos(todos, filter)'
+            ],
+            toggleTodo(event) {
+                this.fire('toggle-todo', event.model.item);
+            },
+            removeTodo(event) {
+                this.fire('remove-todo', event.model.item);
+            },
+            completed(todo) {
+                return todo.completed;
+            },
+            completedStyle(todo) {
+                return `text-decoration: ${todo.completed ? 'line-through' : 'none'}`;
+            },
+            filterTodos(todos, filter) {
+                this.filteredTodos = todos.filter(todo => matches(todo, filter));
+
+                function matches(todo, filter) {
+                    switch (filter) {
+                        case 'ALL':
+                            return true;
+                        case 'COMPLETED':
+                            return todo.completed;
+                        case 'PENDING':
+                            return !todo.completed;
+                        default:
+                            throw new Error(`Filter not supported: "${filter}".`);
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>

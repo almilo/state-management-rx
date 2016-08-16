@@ -2,46 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>State Management with RxJS and React</title>
+    <title>State Management with RxJS and Polymer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <h1 class="jumbotron">Todos (Redux / RxJS / React)</h1>
+        <h1 class="jumbotron">Todos (Redux / RxJS / Polymer)</h1>
     </div>
-    <div id="app"></div>
+    <app-element></app-element>
 </div>
-<script src="https://rawgit.com/systemjs/systemjs/0.19.36/dist/system.js"></script>
+<script src="https://polygit.org/components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="../dist/bundle.js"></script>
-<script>
-    System.config({
-        transpiler: 'ts',
-        typescriptOptions: {
-            jsx: 'react'
-        },
-        map: {
-            ts: 'https://npmcdn.com/plugin-typescript@5.0.1/lib/plugin.js',
-            typescript: 'https://npmcdn.com/typescript@1.8.10/lib/typescript.js',
-            react: 'https://npmcdn.com/react@15.3.0/dist/react.min.js',
-            'react-dom': 'https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js',
-            todos: '../dist/bundle.js'
-        },
-        packages: {
-            view: {
-                defaultExtension: 'tsx'
-            }
-        },
-        meta: {
-            typescript: {
-                exports: 'ts'
-            }
-        }
-    });
-
-    System.import('view/app-component').then(
-            ({ bootstrap }) => bootstrap('app')
-    );
-</script>
+<link rel="import" href="view/app-element.html">
 </body>
 </html>
